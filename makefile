@@ -4,7 +4,7 @@ F_CPU  ?= 8000000UL
 CC      = avr-gcc
 OBJCOPY = avr-objcopy
 
-CFLAGS  = -mmcu=$(MCU) -DF_CPU=$(F_CPU) -Os -Wall -Wextra -std=gnu11 \
+CFLAGS  = -mmcu=$(MCU) -DF_CPU=$(F_CPU) -Os -Wall -Wextra -std=gnu99 \
           -ffunction-sections -fdata-sections -MMD -MP
 LDFLAGS = -mmcu=$(MCU) -Wl,--gc-sections
 

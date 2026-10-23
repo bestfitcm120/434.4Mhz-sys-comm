@@ -20,11 +20,12 @@
 #include "packet.h"
 #include "radio_tx.h"
 
-_Static_assert(sizeof(BUTTON_MESSAGE) - 1U >= 1U && sizeof(BUTTON_MESSAGE) - 1U <= MSG_MAX_LEN,
-               "BUTTON_MESSAGE must be 1 to MSG_MAX_LEN characters");
-_Static_assert(sizeof(AUTO_MESSAGE) - 1U >= 1U && sizeof(AUTO_MESSAGE) - 1U <= MSG_MAX_LEN,
-               "AUTO_MESSAGE must be 1 to MSG_MAX_LEN characters");
-_Static_assert(RADIO_TIMER_TOP <= 0xFFFFUL, "half-bit time does not fit Timer 1");
+/* Compile-time checks (plain C99, so old avr-gcc versions work too) */
+#define STATIC_CHECK(name, cond) typedef char check_##name[(cond) ? 1 : -1]
+
+STATIC_CHECK(button_msg_len, sizeof(BUTTON_MESSAGE) - 1U >= 1U && sizeof(BUTTON_MESSAGE) - 1U <= MSG_MAX_LEN);
+STATIC_CHECK(auto_msg_len,   sizeof(AUTO_MESSAGE) - 1U >= 1U && sizeof(AUTO_MESSAGE) - 1U <= MSG_MAX_LEN);
+STATIC_CHECK(timer1_fits,    RADIO_TIMER_TOP <= 0xFFFFUL);
 
 static void transmit(const char *msg, uint8_t len)
 {
