@@ -1,5 +1,6 @@
 .pio
 .vscode
+.temp
 Project Backups
 compile_commands.json
 sys comm.pdsprj.*.workspace
