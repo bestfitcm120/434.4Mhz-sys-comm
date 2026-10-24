@@ -13,7 +13,8 @@ LIB_DIR  = lib
 OUT_DIR  = .firmware
 TMP_DIR  = .temp
 
-# Firmware names. Each one has src/<NAME>/*.c, lib/<NAME>/*.h
+# Firmware names. Each one has src/<NAME>/*.c. All headers live in lib/ and are
+# shared, so header file names must be unique across both firmwares.
 # and builds to $(OUT_DIR)/Tx_firmware.elf/.hex or Rx_firmware.elf/.hex
 FIRMWARES = TX RX
 NAME_TX   = Tx
@@ -45,7 +46,7 @@ $(1): $$($(1)_HEX)
 endif
 
 $(TMP_DIR)/$(1)/%.o: $(SRC_DIR)/$(1)/%.c | $(TMP_DIR)/$(1)
-	$$(CC) $$(CFLAGS) -I$(LIB_DIR)/$(1) -c $$< -o $$@
+	$$(CC) $$(CFLAGS) -I$(LIB_DIR) -c $$< -o $$@
 
 $$($(1)_ELF): $$($(1)_OBJS) | $(OUT_DIR)
 	$$(CC) $$(LDFLAGS) -o $$@ $$^
